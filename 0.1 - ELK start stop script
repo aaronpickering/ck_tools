@@ -1,0 +1,55 @@
+#!/bin/sh
+#HardDemoReset
+# Stopping Log Generation
+kill $(ps aux | grep '[d]ata_' | awk '{print $2}')
+
+# Stopping kibana
+echo "stopping Kibana"
+service kibana stop
+
+# Stopping Beats
+echo "stopping FileBeats"
+service filebeat stop
+
+# Stopping LogStash
+echo "Stopping LogStash"
+service logstash stop
+
+# Stopping Elastic
+echo "Stopping Elastic"
+systemctl stop elasticsearch.service
+
+# Stopping Logs
+echo "Checking Status"
+ps -ef | grep kibana
+ps -ef | grep filebeat
+ps -ef | grep logstash
+ps -ef | grep elastic
+ps -ef |grep data_
+echo confirm services are stopped
+sleep 30
+
+# Starting Elastic
+echo "Starting Elastic"
+systemctl start elasticsearch.service
+
+# Starting LogStash
+echo "Starting LogStash"
+service logstash start
+
+# Starting Beats
+echo "Starting Beats"
+service filebeat start
+
+# Starting Kibana
+echo "Starting Kibana"
+service kibana start
+### Sleeping
+echo "servcies delay check 45 seconds"
+sleep 30
+echo "checking services"
+/etc/logstash/ELK_e2e_Demo/Demostatus.sh
+
+## push Hard Reset into Logs
+date >> DemoStatus
+echo "Hard Reset Performed" >> DemoStatus

@@ -1,0 +1,18 @@
+import time
+import datetime
+def main(path, message):
+    f = open(path+"main.txt", "a+")
+    f.write(message)
+    f.close()
+path = "/tmp/main/"
+while True:
+    edx = ['Production', 'Module', 'Audit Collector', 'Inventory Check', 'Security', 'Accounting', 'Compliance', 'Logger', 'Portal', 'Payment Processing']
+    for ed in edx:
+        main(path, " Action Normal :Notify: web event " + str(ed) +" \n")
+    eex = ['Testing', 'Dev Module', 'Compliance', 'Shipping', 'Snort Detect', 'Legal', 'Data', 'Login', 'Access', 'PayPal']
+    for ee in eex:
+        main(path, " Sub web event " + str(ee) +" \n")
+        tea = [ 'Polling' ]
+        for t in tea:
+            main(path, "Cisco SNMP " + str(t) + " event \n")
+        time.sleep(2)
